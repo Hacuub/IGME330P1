@@ -1,7 +1,7 @@
 console.log("loaded");
 
 (function(){
-    let jmkLIB = {
+    let abcLIB = {
         getRandomColor(){
            /*function getByte(){
             return 55 + Math.round(Math.random() * 200);
@@ -15,13 +15,13 @@ console.log("loaded");
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
-        drawCenterCircle(ctx, x, y, l)
+        drawCenterCircle(ctx, x, y, l, color = "white")
         {
             ctx.save();
             ctx.beginPath();
             ctx.arc(x, y, l/2, 0, Math.PI * 2, false);
             ctx.closePath();
-            ctx.fillStyle = jmkLIB.getRandomColor();
+            ctx.fillStyle = color;
             ctx.fill();
             ctx.restore();
         },
@@ -44,7 +44,7 @@ console.log("loaded");
     };
 
     if(window){
-        window["jmkLIB"] = jmkLIB;
+        window["abcLIB"] = abcLIB;
     }
     else{
         throw "'window' is not defined!";
