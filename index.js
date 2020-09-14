@@ -18,6 +18,7 @@ import './abcLIB.js';
     let rocketSpeed = 5
     let fireworkDotSize = 5;
     let fpsGroup = [];
+    let fadeRate = 12;
 
     window.onload = init;
 
@@ -36,12 +37,13 @@ import './abcLIB.js';
     }
     
     function drawFirework(){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/12})`);
+        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fadeRate})`);
         if(timer < 10)
         {
             timer += 1/12;
             setTimeout(drawFirework,1000/fps);
             getFPS();
+            getFadeRate();
             let a = n * dtr(divergence);
             let r = c * Math.sqrt(n);
             let drawX = r * Math.cos(a) + x
@@ -59,13 +61,14 @@ import './abcLIB.js';
     //  draw rocket moving up until hits clicked Y value
     //  starts firework
     function drawRocket(){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/12})`);
+        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fadeRate})`);
         if(y >= mouseY)
         {
         x = mouseX;
         //console.log(x, y);
         setTimeout(drawRocket,1000/fps);
         getFPS();
+        getFadeRate();
         abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, rocketFillStyle);
         y -= rocketSpeed;
         }
@@ -79,6 +82,7 @@ import './abcLIB.js';
 
     //  onclick gets mouse position and starts rocket
     function canvasClicked(e){
+        console.log(document.querySelector("#slider").value);
         abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,1)`);
         n = 0;
         timer = 0;
@@ -90,6 +94,7 @@ import './abcLIB.js';
         drawRocket();
     }
 
+    //method to get the new fps
     function getFPS(){
         fpsGroup = document.querySelectorAll("#fps");
         for(let i = 0; i < fpsGroup.length; i++){
@@ -99,6 +104,14 @@ import './abcLIB.js';
                 fps = Number(fpsGroup[i].value);
                 console.log(fps);
             }
+        }
+    }
+
+    //method to change the fade rate
+    function getFadeRate(){
+        document.querySelector("#slider").onchange = function(e){
+            let rate = Number(document.querySelector("#slider").value) * -1;
+            fadeRate = rate;
         }
     }
 
