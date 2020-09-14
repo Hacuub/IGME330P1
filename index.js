@@ -17,6 +17,7 @@ import './abcLIB.js';
     let fps = 12;
     let rocketSpeed = 5
     let fireworkDotSize = 5;
+    let fpsGroup = [];
 
     window.onload = init;
 
@@ -35,11 +36,12 @@ import './abcLIB.js';
     }
     
     function drawFirework(){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fps})`);
+        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/12})`);
         if(timer < 10)
         {
-            timer += 1/fps;
-            requestAnimationFrame(drawFirework);
+            timer += 1/12;
+            setTimeout(drawFirework,1000/fps);
+            getFPS();
             let a = n * dtr(divergence);
             let r = c * Math.sqrt(n);
             let drawX = r * Math.cos(a) + x
@@ -57,12 +59,13 @@ import './abcLIB.js';
     //  draw rocket moving up until hits clicked Y value
     //  starts firework
     function drawRocket(){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fps})`);
+        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/12})`);
         if(y >= mouseY)
         {
         x = mouseX;
         //console.log(x, y);
-        requestAnimationFrame(drawRocket);
+        setTimeout(drawRocket,1000/fps);
+        getFPS();
         abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, rocketFillStyle);
         y -= rocketSpeed;
         }
@@ -85,5 +88,17 @@ import './abcLIB.js';
         //console.log(mouseX, mouseY);
         y = canvasHeight;
         drawRocket();
+    }
+
+    function getFPS(){
+        fpsGroup = document.querySelectorAll("#fps");
+        for(let i = 0; i < fpsGroup.length; i++){
+            
+            if(fpsGroup[i].checked)
+            {
+                fps = Number(fpsGroup[i].value);
+                console.log(fps);
+            }
+        }
     }
 
