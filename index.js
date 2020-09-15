@@ -19,6 +19,8 @@ import './abcLIB.js';
     let fireworkDotSize = 5;
     let fpsGroup = [];
     let fadeRate = 12;
+    let colorGroup = [];
+    let colorStyle = "random";
 
     window.onload = init;
 
@@ -44,11 +46,12 @@ import './abcLIB.js';
             setTimeout(drawFirework,1000/fps);
             getFPS();
             getFadeRate();
+            getColor();
             let a = n * dtr(divergence);
             let r = c * Math.sqrt(n);
             let drawX = r * Math.cos(a) + x
             let drawY = r * Math.sin(a) + y;
-            abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, color);
+            abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
             n++;
         }
         else
@@ -69,7 +72,8 @@ import './abcLIB.js';
         setTimeout(drawRocket,1000/fps);
         getFPS();
         getFadeRate();
-        abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, rocketFillStyle);
+        getColor();
+        abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
         y -= rocketSpeed;
         }
         else
@@ -82,7 +86,6 @@ import './abcLIB.js';
 
     //  onclick gets mouse position and starts rocket
     function canvasClicked(e){
-        console.log(document.querySelector("#slider").value);
         abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,1)`);
         n = 0;
         timer = 0;
@@ -102,7 +105,6 @@ import './abcLIB.js';
             if(fpsGroup[i].checked)
             {
                 fps = Number(fpsGroup[i].value);
-                console.log(fps);
             }
         }
     }
@@ -112,6 +114,52 @@ import './abcLIB.js';
         document.querySelector("#slider").onchange = function(e){
             let rate = Number(document.querySelector("#slider").value) * -1;
             fadeRate = rate;
+        }
+    }
+
+    //method to make pick a color // make rainbow probably with a timer
+    function getColor(){
+        colorGroup = document.querySelectorAll("#color");
+        console.log("color");
+        for(let i = 0; i < colorGroup.length; i++)
+        {
+            if(colorGroup[i].checked)
+            {
+                if(colorGroup[i].value == "random")
+                {
+                    colorStyle = abcLIB.getRandomColor();
+                }
+                else if(colorGroup[i].value == "yellow")
+                {
+                    //colorStyle = abcLIB.getRandomColorRange(50, 65, 90, 100, 65, 80);
+                    colorStyle = "yellow"
+                }
+                else if(colorGroup[i].value == "blue")
+                {
+                    //colorStyle = abcLIB.getRandomColorRange(220, 240, 90, 100, 65, 80);
+                    colorStyle = "blue";
+                }
+                else if(colorGroup[i].value == "red")
+                {
+                    colorStyle = "red";
+                }
+                else if(colorGroup[i].value == "green")
+                {
+                    colorStyle = "green";
+                }
+                else if(colorGroup[i].value == "purple")
+                {
+                    colorStyle = "purple";
+                }
+                else if(colorGroup[i].value == "orange")
+                {
+                    colorStyle = "orange";
+                }
+                else if(colorGroup[i].value == "pink")
+                {
+                    colorStyle = "pink";
+                }
+            }
         }
     }
 

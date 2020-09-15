@@ -8,8 +8,16 @@ console.log("loaded");
             }*/
             let getByte = (e) => 55 + Math.round(Math.random() * 200);
             //return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
-            return `rgba(${getByte()},${getByte()},${getByte()},.8`;
+            return `rgba(${getByte()},${getByte()},${getByte()},1`;
         },
+
+        getRandomColorRange(min1, max1, min2, max2, min3, max3){
+             let getByte1 = (e) => 55 + Math.round((Math.random() * (max1 - min1)));
+             let getByte2 = (e) => 55 + Math.round((Math.random() * (max2 - min2)));
+             let getByte3 = (e) => 55 + Math.round((Math.random() * (max3 - min3)));
+             //return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+             return `hsl(${getByte1()}, 100%, 50%`;
+         },
 
         getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
