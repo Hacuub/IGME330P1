@@ -17,13 +17,13 @@ import './abcLIB.js';
     let fps = 12;
     let rocketSpeed = 5
     let fireworkDotSize = 5;
-    let fpsGroup = [];
     let fadeRate = 12;
     let colorGroup = [];
     let colorStyle = "random";
     let explosionTime = 10;
     let divergenceGroup = [];
     let clockwise = true;
+    let randomIndex = 9;
 
     window.onload = init;
 
@@ -42,15 +42,15 @@ import './abcLIB.js';
     }
     
     function drawFirework(){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fadeRate})`);
+        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth * 2, canvasHeight * 2, `rgba(0,0,0,${1/fadeRate})`);
         if(timer < explosionTime)
         {
             timer += 1/12;
+            if(colorGroup[randomIndex].checked)
+            {
+                colorStyle = abcLIB.getRandomColor();
+            }
             setTimeout(drawFirework,1000/fps);
-            getFPS();
-            getFadeRate();
-            getColor();
-            getSize();
             let a = n * dtr(divergence);
             let r = c * Math.sqrt(n);
             let drawX = r * Math.cos(a) + x
@@ -60,7 +60,7 @@ import './abcLIB.js';
         }
         else
         {
-            abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,1)`);
+            abcLIB.drawRectangle(ctx, 0, 0, canvasWidth*2, canvasHeight*2, `rgba(0,0,0,1)`);
         }
     }
 
@@ -68,24 +68,23 @@ import './abcLIB.js';
     //  draw rocket moving up until hits clicked Y value
     //  starts firework
     function drawRocket(){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fadeRate})`);
+        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth * 2, canvasHeight * 2, `rgba(0,0,0,${1/fadeRate})`);
         if(y >= mouseY)
         {
         x = mouseX;
         //console.log(x, y);
+        if(colorGroup[randomIndex].checked)
+        {
+            colorStyle = abcLIB.getRandomColor();
+        }
         setTimeout(drawRocket,1000/fps);
-        getFPS();
-        getFadeRate();
-        getColor();
-        getExplosion();
-        getDivergence();
-        getClockwise();
         abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
         y -= rocketSpeed;
         }
         else
         {
             mouseY = canvasHeight;
+            timer = 0;
             drawFirework();
             //console.log("firework boom");
         }
@@ -93,12 +92,18 @@ import './abcLIB.js';
 
     //  onclick gets mouse position and starts rocket
     function canvasClicked(e){
-        abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,1)`);
+        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth*2, canvasHeight*2, `rgba(0,0,0,1)`);
         n = 0;
-        timer = 0;
+        timer = 13;
         let rect = e.target.getBoundingClientRect();
         mouseX = e.clientX;
         mouseY = e.clientY;
+        getFPS();
+        getFadeRate();
+        getColor();
+        getExplosion();
+        getDivergence();
+        getClockwise();
         //console.log(mouseX, mouseY);
         y = canvasHeight;
         drawRocket();
@@ -106,14 +111,7 @@ import './abcLIB.js';
 
     //method to get the new fps
     function getFPS(){
-        fpsGroup = document.querySelectorAll("#fps");
-        for(let i = 0; i < fpsGroup.length; i++){
-            
-            if(fpsGroup[i].checked)
-            {
-                fps = Number(fpsGroup[i].value);
-            }
-        }
+            fps = Number(document.querySelector("#fps").value);
     }
 
         //method to get the new divergence
@@ -131,24 +129,18 @@ import './abcLIB.js';
 
     //method to change the fade rate
     function getFadeRate(){
-        document.querySelector("#slider").onchange = function(e){
             let rate = Number(document.querySelector("#slider").value) * -1;
             fadeRate = rate;
-        }
     }
 
     //method to change the fade rate
     function getSize(){
-        document.querySelector("#sliderForSize").onchange = function(e){
             fireworkDotSize = Number(document.querySelector("#sliderForSize").value);
-        }
     } 
 
     //method to change the exposion size
     function getExplosion(){
-        document.querySelector("#sliderForExplosion").onchange = function(e){
             explosionTime = Number(document.querySelector("#sliderForExplosion").value);
-        }
     } 
 
     //method to change direction of spin

@@ -9,20 +9,6 @@
 <body>
 <canvas id="canvas"></canvas>
 <br>
-<p>Change the FPS:
-	<input type="radio" id="fps" name="fpsGroup" value="2">
-	<label for="fps">2</label>
-	<input type="radio" id="fps" name="fpsGroup" value="6">
-	<label for="fps">6</label>
-	<input type="radio" id="fps" name="fpsGroup" value="12" checked>
-	<label for="fps">12</label>
-	<input type="radio" id="fps" name="fpsGroup" value="30">
-	<label for="fps">30</label>
-	<input type="radio" id="fps" name="fpsGroup" value="60">
-	<label for="fps">60</label>
-	<input type="radio" id="fps" name="fpsGroup" value="120">
-	<label for="fps">120</label>
-</p>
 
 <p>Change the color: 
 	<input type="radio" id="color" name="colorGroup" value="blue">
@@ -42,7 +28,7 @@
 	<input type="radio" id="color" name="colorGroup" value="white">
 	<label for="fps">White</label>
 	<input type="radio" id="color" name="colorGroup" value="rainbow">
-	<label for="fps">Rainbow</label>
+	<label for="fps">Rainbow (not working yet)</label>
 	<input type="radio" id="color" name="colorGroup" value="random" checked>
 	<label for="fps">Random</label>
 </p>
@@ -65,8 +51,12 @@
 </p>
 
 <br>
+<p>Change the overall Speed:
+	<input type="range" id="fps" name="fps" min="12" max="120" value = "30"> 
+</p>
+
 <p>Change the fade speed: 
-	<input type="range" id="slider" name="silderForFade" min="-120" max="-20" value="-120">
+	<input type="range" id="slider" name="silderForFade" min="-30" max="-10" value="-30">
 </p>
 
 <p>Change the Size of the firework: 
