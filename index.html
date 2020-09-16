@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Phllotaxis</title>
+	<title>Project One</title>
 	<style>canvas{ border: 1px solid black; }</style>
 	<script type = "module" src = "index.js"></script>
 </head>
@@ -10,18 +10,58 @@
 <canvas id="canvas"></canvas>
 <br>
 <p>Change the FPS:
-	<input type="radio" id="fps" name="fpsGrpup" value="2">
+	<input type="radio" id="fps" name="fpsGroup" value="2">
 	<label for="fps">2</label>
-	<input type="radio" id="fps" name="fpsGrpup" value="6">
+	<input type="radio" id="fps" name="fpsGroup" value="6">
 	<label for="fps">6</label>
-	<input type="radio" id="fps" name="fpsGrpup" value="12" checked>
+	<input type="radio" id="fps" name="fpsGroup" value="12" checked>
 	<label for="fps">12</label>
-	<input type="radio" id="fps" name="fpsGrpup" value="30">
+	<input type="radio" id="fps" name="fpsGroup" value="30">
 	<label for="fps">30</label>
-	<input type="radio" id="fps" name="fpsGrpup" value="60">
+	<input type="radio" id="fps" name="fpsGroup" value="60">
 	<label for="fps">60</label>
-	<input type="radio" id="fps" name="fpsGrpup" value="120">
+	<input type="radio" id="fps" name="fpsGroup" value="120">
 	<label for="fps">120</label>
+</p>
+
+<p>Change the color: 
+	<input type="radio" id="color" name="colorGroup" value="blue">
+	<label for="fps">Blue</label>
+	<input type="radio" id="color" name="colorGroup" value="yellow">
+	<label for="fps">Yellow</label>
+	<input type="radio" id="color" name="colorGroup" value="red">
+	<label for="fps">Red</label>
+	<input type="radio" id="color" name="colorGroup" value="green">
+	<label for="fps">Green</label>
+	<input type="radio" id="color" name="colorGroup" value="purple">
+	<label for="fps">Purple</label>
+	<input type="radio" id="color" name="colorGroup" value="orange">
+	<label for="fps">Orange</label>
+	<input type="radio" id="color" name="colorGroup" value="pink">
+	<label for="fps">Pink</label>
+	<input type="radio" id="color" name="colorGroup" value="white">
+	<label for="fps">White</label>
+	<input type="radio" id="color" name="colorGroup" value="rainbow">
+	<label for="fps">Rainbow</label>
+	<input type="radio" id="color" name="colorGroup" value="random" checked>
+	<label for="fps">Random</label>
+</p>
+
+<p>Change the Divergence: 
+	<input type="radio" id="divergence" name="divergenceGroup" value="92.7">
+	<label for="divergence">92.7</label>
+	<input type="radio" id="divergence" name="divergenceGroup" value="-101.7">
+	<label for="divergence">101.7</label>
+	<input type="radio" id="divergence" name="divergenceGroup" value="124.6">
+	<label for="divergence">124.6</label>
+	<input type="radio" id="divergence" name="divergenceGroup" value="129.2">
+	<label for="divergence">129.2</label>
+	<input type="radio" id="divergence" name="divergenceGroup" value="132.7">
+	<label for="divergence">132.7</label>
+	<input type="radio" id="divergence" name="divergenceGroup" value="-137.5">
+	<label for="divergence">137.5</label>
+	<input type="radio" id="divergence" name="divergenceGroup" value="147.7" checked>
+	<label for="divergence">147.7</label>
 </p>
 
 <br>
@@ -29,32 +69,17 @@
 	<input type="range" id="slider" name="silderForFade" min="-120" max="-20" value="-120">
 </p>
 
-<br>
-<p>Change the color: 
-	<input type="radio" id="color" name="colorGrpup" value="blue">
-	<label for="fps">Blue</label>
-	<input type="radio" id="color" name="colorGrpup" value="yellow">
-	<label for="fps">Yellow</label>
-	<input type="radio" id="color" name="colorGrpup" value="red" checked>
-	<label for="fps">Red</label>
-	<input type="radio" id="color" name="colorGrpup" value="green">
-	<label for="fps">Green</label>
-	<input type="radio" id="color" name="colorGrpup" value="purple">
-	<label for="fps">Purple</label>
-	<input type="radio" id="color" name="colorGrpup" value="orange">
-	<label for="fps">Orange</label>
-	<input type="radio" id="color" name="colorGrpup" value="pink">
-	<label for="fps">Pink</label>
-	<input type="radio" id="color" name="colorGrpup" value="rainbow">
-	<label for="fps">Rainbow</label>
-	<input type="radio" id="color" name="colorGrpup" value="random" checked>
-	<label for="fps">Random</label>
-</p>
-
-<br>
 <p>Change the Size of the firework: 
-	<input type="range" id="sliderForSize" name="silderForSize" min="0" max="20" value="5">
+	<input type="range" id="sliderForSize" name="silderForSize" min="3" max="20" value="5">
 </p>
 
+<p>Change the Size of the explosion: 
+	<input type="range" id="sliderForExplosion" name="sliderForExplosion" min="3" max="10" value="5">
+</p>
+
+<br>
+<p>Clockwise
+	<input type = "checkbox" id = "clockwiseCheck" name = "clockwiseCheck" checked>
+</p>
 </body>
 </html>

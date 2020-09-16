@@ -3,8 +3,8 @@ import './abcLIB.js';
 	const canvasWidth = 400, canvasHeight = 300;
 	let ctx;
     let n = 20;
-    const c = 6;
-    const divergence = 147.7;
+    let c = 6;
+    let divergence = 147.7;
     let x = 0;
     let y = 0;
     let mouseX = 0;
@@ -21,6 +21,9 @@ import './abcLIB.js';
     let fadeRate = 12;
     let colorGroup = [];
     let colorStyle = "random";
+    let explosionTime = 10;
+    let divergenceGroup = [];
+    let clockwise = true;
 
     window.onload = init;
 
@@ -40,7 +43,7 @@ import './abcLIB.js';
     
     function drawFirework(){
         abcLIB.drawRectangle(ctx, x, y, canvasWidth, canvasHeight, `rgba(0,0,0,${1/fadeRate})`);
-        if(timer < 10)
+        if(timer < explosionTime)
         {
             timer += 1/12;
             setTimeout(drawFirework,1000/fps);
@@ -74,6 +77,9 @@ import './abcLIB.js';
         getFPS();
         getFadeRate();
         getColor();
+        getExplosion();
+        getDivergence();
+        getClockwise();
         abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
         y -= rocketSpeed;
         }
@@ -110,6 +116,19 @@ import './abcLIB.js';
         }
     }
 
+        //method to get the new divergence
+        function getDivergence(){
+            divergenceGroup = document.querySelectorAll("#divergence");
+            for(let i = 0; i < divergenceGroup.length; i++){
+                
+                if(divergenceGroup[i].checked)
+                {
+                    divergence = Number(divergenceGroup[i].value);
+                }
+            }
+        }
+
+
     //method to change the fade rate
     function getFadeRate(){
         document.querySelector("#slider").onchange = function(e){
@@ -125,10 +144,27 @@ import './abcLIB.js';
         }
     } 
 
+    //method to change the exposion size
+    function getExplosion(){
+        document.querySelector("#sliderForExplosion").onchange = function(e){
+            explosionTime = Number(document.querySelector("#sliderForExplosion").value);
+        }
+    } 
+
+    //method to change direction of spin
+    function getClockwise(){
+        document.querySelector("#clockwiseCheck").onchange = function(e){
+            clockwise = !clockwise;
+        }
+        if(!clockwise)
+        {
+            divergence = -divergence;
+        }
+    }
+
     //method to make pick a color // make rainbow probably with a timer
     function getColor(){
         colorGroup = document.querySelectorAll("#color");
-        console.log("color");
         for(let i = 0; i < colorGroup.length; i++)
         {
             if(colorGroup[i].checked)
@@ -166,6 +202,10 @@ import './abcLIB.js';
                 else if(colorGroup[i].value == "pink")
                 {
                     colorStyle = "pink";
+                }
+                else if(colorGroup[i].value == "white")
+                {
+                    colorStyle = "white";
                 }
             }
         }
