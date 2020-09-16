@@ -47,6 +47,7 @@ import './abcLIB.js';
             getFPS();
             getFadeRate();
             getColor();
+            getSize();
             let a = n * dtr(divergence);
             let r = c * Math.sqrt(n);
             let drawX = r * Math.cos(a) + x
@@ -116,6 +117,13 @@ import './abcLIB.js';
             fadeRate = rate;
         }
     }
+
+    //method to change the fade rate
+    function getSize(){
+        document.querySelector("#sliderForSize").onchange = function(e){
+            fireworkDotSize = Number(document.querySelector("#sliderForSize").value);
+        }
+    } 
 
     //method to make pick a color // make rainbow probably with a timer
     function getColor(){
