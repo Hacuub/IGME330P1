@@ -1,6 +1,6 @@
 import './abcLIB.js';
 "use strict";
-	const canvasWidth = 400, canvasHeight = 300;
+	const canvasWidth = 959, canvasHeight = 700;
 	let ctx;
     let n = 20;
     let c = 6;
@@ -30,7 +30,7 @@ import './abcLIB.js';
 	function init(){
 		ctx = canvas.getContext("2d");
 		canvas.width = canvasWidth;
-		canvas.height = canvasHeight;
+        canvas.height = canvasHeight;
         ctx.fillRect(0,0,canvasWidth,canvasHeight);
         canvas.onclick = canvasClicked;
 	}

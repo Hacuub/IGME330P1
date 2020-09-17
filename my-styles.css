@@ -1,1 +1,54 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Righteous', cursive;
+    background-color: #A78682;
+}
+#Title{
+    font-size:3em;
+    text-align:left;
+}
+    
+#Display{
+    grid-area: box1;
+}
+
+#Controls{
+    font-size: 2em;
+}
+
+#controls1{
+    grid-area: subBox1;
+}
+
+#controls2{
+    padding-top: 3vh;
+    font-size: 1em;
+    grid-area: subBox2;
+}
+
+#allControls{
+    grid-area: box2;
+
+    display: grid;
+    grid-template-rows: 10vh 50vh 10vh;
+    grid-template-areas: 
+    "subBox1"
+    "subBox2";
+}
+
+.grid{
+    display: grid;
+    grid-template-rows: 100vh;
+    grid-template-columns: 50vw 50vw;
+    grid-template-areas: "box1 box2";
+}
+
+hr {
+    background-color: #EFE6DD;
+}
+
+
+
+
 
