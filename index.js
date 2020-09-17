@@ -104,6 +104,7 @@ import './abcLIB.js';
         getExplosion();
         getDivergence();
         getClockwise();
+        getSize();
         //console.log(mouseX, mouseY);
         y = canvasHeight;
         drawRocket();
