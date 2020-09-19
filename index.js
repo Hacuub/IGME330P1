@@ -1,6 +1,7 @@
 import './abcLIB.js';
+import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
 "use strict";
-	const canvasWidth = 959, canvasHeight = 700;
+	let canvasWidth = 959, canvasHeight = 700;
 	let ctx;
     let n = 20;
     let c = 6;
@@ -24,75 +25,39 @@ import './abcLIB.js';
     let divergenceGroup = [];
     let clockwise = true;
     let randomIndex = 9;
+    let rocketSound = new Howl({src: ['rocket.wav'],
+    volume: .125
+    });
+    let fireWorkSound = new Howl({src: ['firework.wav'], 
+    volume: .175
+    });
 
     window.onload = init;
 
 	function init(){
-		ctx = canvas.getContext("2d");
+        ctx = canvas.getContext("2d");
+        canvasWidth = window.innerWidth/2;
+        canvasHeight = window.innerHeight;
 		canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         ctx.fillRect(0,0,canvasWidth,canvasHeight);
         canvas.onclick = canvasClicked;
+        loop();
 	}
 
     // helpers
+
+    function loop(){
+        setTimeout(loop, 1000/fps);
+        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth * 2, canvasHeight * 2, `rgba(0,0,0,${1/fadeRate})`);
+    }
     
 	function dtr(degrees){
 		return degrees * (Math.PI/180);
     }
-    
-    function drawFirework(){
-        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth * 2, canvasHeight * 2, `rgba(0,0,0,${1/fadeRate})`);
-        if(timer < explosionTime)
-        {
-            timer += 1/12;
-            if(colorGroup[randomIndex].checked)
-            {
-                colorStyle = abcLIB.getRandomColor();
-            }
-            setTimeout(drawFirework,1000/fps);
-            let a = n * dtr(divergence);
-            let r = c * Math.sqrt(n);
-            let drawX = r * Math.cos(a) + x
-            let drawY = r * Math.sin(a) + y;
-            abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
-            n++;
-        }
-        else
-        {
-            abcLIB.drawRectangle(ctx, 0, 0, canvasWidth*2, canvasHeight*2, `rgba(0,0,0,1)`);
-        }
-    }
-
-    //  fades out
-    //  draw rocket moving up until hits clicked Y value
-    //  starts firework
-    function drawRocket(){
-        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth * 2, canvasHeight * 2, `rgba(0,0,0,${1/fadeRate})`);
-        if(y >= mouseY)
-        {
-        x = mouseX;
-        //console.log(x, y);
-        if(colorGroup[randomIndex].checked)
-        {
-            colorStyle = abcLIB.getRandomColor();
-        }
-        setTimeout(drawRocket,1000/fps);
-        abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
-        y -= rocketSpeed;
-        }
-        else
-        {
-            mouseY = canvasHeight;
-            timer = 0;
-            drawFirework();
-            //console.log("firework boom");
-        }
-    }
 
     //  onclick gets mouse position and starts rocket
     function canvasClicked(e){
-        abcLIB.drawRectangle(ctx, 0, 0, canvasWidth*2, canvasHeight*2, `rgba(0,0,0,1)`);
         n = 0;
         timer = 13;
         let rect = e.target.getBoundingClientRect();
@@ -105,8 +70,12 @@ import './abcLIB.js';
         getDivergence();
         getClockwise();
         getSize();
+        rocketSound.play();
         //console.log(mouseX, mouseY);
         y = canvasHeight;
+        //let fire = new Firework();
+        //fire.drawRocket();
+        x = mouseX;
         drawRocket();
     }
 
@@ -115,17 +84,69 @@ import './abcLIB.js';
             fps = Number(document.querySelector("#fps").value);
     }
 
-        //method to get the new divergence
-        function getDivergence(){
-            divergenceGroup = document.querySelectorAll("#divergence");
-            for(let i = 0; i < divergenceGroup.length; i++){
+    //method to get the new divergence
+    function getDivergence(){
+        divergenceGroup = document.querySelectorAll("#divergence");
+        for(let i = 0; i < divergenceGroup.length; i++){
                 
-                if(divergenceGroup[i].checked)
-                {
-                    divergence = Number(divergenceGroup[i].value);
-                }
+            if(divergenceGroup[i].checked)
+            {
+                divergence = Number(divergenceGroup[i].value);
             }
         }
+    }
+
+    function drawRocket(){
+        let random = abcLIB.getRandomInt(0,2);
+        //console.log(x);
+        if(random==0)
+        {
+            x-=2;
+        }
+        else if(random ==2)
+        {
+            x+=2;
+        }
+        if(y >= mouseY)
+        {
+            //console.log(x, y);
+            if(colorGroup[randomIndex].checked)
+            {
+                colorStyle = abcLIB.getRandomColor();
+            }
+            setTimeout(drawRocket,1000/fps);
+            abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
+            y -= rocketSpeed;
+        }
+        else
+        {
+            mouseY = canvasHeight;
+            timer = 0;
+            drawFirework();
+            //console.log("firework boom");
+        }
+    }
+    function drawFirework(){
+        if(timer ==0)
+        {
+            fireWorkSound.play();
+        }
+        if(timer < explosionTime)
+        {
+            timer += 1/12;
+            if(colorGroup[randomIndex].checked)
+            {
+                colorStyle = abcLIB.getRandomColor();
+            }
+            setTimeout(drawFirework,1000/fps);
+            let a = n * dtr(divergence);
+            let r = c * Math.sqrt(n);
+            let drawX = r * Math.cos(a) + x;
+            let drawY = r * Math.sin(a) + y;
+            abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
+            n++;
+        }
+    }
 
 
     //method to change the fade rate
@@ -200,7 +221,11 @@ import './abcLIB.js';
                 {
                     colorStyle = "white";
                 }
+                else if(colorGroup[i] == "rainbow")
+                {
+                    colorStyle = "white";
+                    //colorStyle = `hsl(${a/divergence * 10},100%,50%)`;
+                }
             }
         }
     }
-
