@@ -5,22 +5,13 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
 	let ctx;
     let n = 20;
     let c = 6;
-    let divergence = 147.7;
-    let x = 0;
-    let y = 0;
     let mouseX = 0;
     let mouseY = 0;
     let timer = 0;
-    let rocketWidth = 5;
-    let rocketHeight = 10;
-    let rocketFillStyle = "white";
-    let color = "white";
     let fps = 12;
     let rocketSpeed = 5
-    let fireworkDotSize = 5;
     let fadeRate = 12;
     let colorGroup = [];
-    let explosionTime = 10;
     let divergenceGroup = [];
     let clockwise = true;
     let rocketSound = new Howl({src: ['rocket.wav'],
@@ -45,6 +36,8 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
             this.clockwise = Clockwise;
             this.fireworkDotSize = getSize();
             this.colorStyle = getColor();
+            this.rocketWidth = getRocketSize();
+            this.rocketHeight = getRocketSize()*2;
 
             if(!this.clockwise)
             {
@@ -102,11 +95,11 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
                     //console.log(x, y);
                     if(this.colorStyle == "random")
                     {
-                        abcLIB.drawRectangle(ctx, this.x, this.y, rocketWidth, rocketHeight, abcLIB.getRandomColor());
+                        abcLIB.drawRectangle(ctx, this.x, this.y, this.rocketWidth, this.rocketHeight, abcLIB.getRandomColor());
                     }
                     else
                     {
-                        abcLIB.drawRectangle(ctx, this.x, this.y, rocketWidth, rocketHeight, this.colorStyle);
+                        abcLIB.drawRectangle(ctx, this.x, this.y, this.rocketWidth, this.rocketHeight, this.colorStyle);
                     }
                     this.y -= rocketSpeed;
                 }
@@ -198,6 +191,11 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
     //method to change the fade rate
     function getSize(){
             return Number(document.querySelector("#sliderForSize").value);
+    } 
+
+    //method to change the fade rate
+    function getRocketSize(){
+        return Number(document.querySelector("#sliderForRocketSize").value);
     } 
 
     //method to change the exposion size
