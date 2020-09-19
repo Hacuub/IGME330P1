@@ -20,11 +20,9 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
     let fireworkDotSize = 5;
     let fadeRate = 12;
     let colorGroup = [];
-    let colorStyle = "random";
     let explosionTime = 10;
     let divergenceGroup = [];
     let clockwise = true;
-    let randomIndex = 9;
     let rocketSound = new Howl({src: ['rocket.wav'],
     volume: .125
     });
@@ -35,62 +33,88 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
     let groupFireWorkCounter = 0;
 
     class fireWork {
-        constructor (X, Y, fireWorkHeight, Timer){
+        constructor (X, Y, fireWorkHeight, Timer, Clockwise, N){
             this.x = X;
             this.y = Y
-            this.offSet = X;
+            this.n = N
             this.height = fireWorkHeight;
             this.timer = Timer
+            this.exploding = true;
+            this.explosionTime = getExplosion();
+            this.divergence = getDivergence();
+            this.clockwise = Clockwise;
+            this.fireworkDotSize = getSize();
+            this.colorStyle = getColor();
+
+            if(!this.clockwise)
+            {
+                this.divergence = -this.divergence;
+            }
         }
 
         drawFirework(){
+            //console.log(this.timer);
             if(this.timer == 0)
             {
                 fireWorkSound.play();
             }
-            if(this.timer < explosionTime)
+            if(this.timer < this.explosionTime)
             {
                 this.timer += 1/12;
-                if(colorGroup[randomIndex].checked)
-                {
-                    colorStyle = abcLIB.getRandomColor();
-                }
-                let a = n * dtr(divergence);
-                let r = c * Math.sqrt(n);
-                let drawX = r * Math.cos(a) + this.offSet;
+
+                let a = this.n * dtr(this.divergence);
+                let r = c * Math.sqrt(this.n);
+                let drawX = r * Math.cos(a) + this.x;
                 let drawY = r * Math.sin(a) + this.height;
-                abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
-                n++;
+                if(this.colorStyle == "random")
+                {
+                    abcLIB.drawCenterCircle(ctx, drawX, drawY, this.fireworkDotSize, abcLIB.getRandomColor());
+                }
+                else
+                {
+
+                    abcLIB.drawCenterCircle(ctx, drawX, drawY, this.fireworkDotSize, this.colorStyle);
+                }
+                this.n++;
+            }
+            else{
+                this.exploding = false;
             }
         }
 
         
         drawRocket(){
-            let random = abcLIB.getRandomInt(0,2);
-            //console.log(x);
-            if(random==0)
+            if(this.exploding)
             {
-                this.x-=2;
-            }
-            else if(random ==2)
-            {
-                this.x+=2;
-            }
-            if(this.y >= this.height)
-            {
-                //console.log(x, y);
-                if(colorGroup[randomIndex].checked)
+                let random = abcLIB.getRandomInt(0,2);
+                //console.log(x);
+                if(this.y >= this.height)
                 {
-                    colorStyle = abcLIB.getRandomColor();
+                    if(random==0)
+                    {
+                        this.x-=2;
+                    }
+                    else if(random ==2)
+                    {
+                        this.x+=2;
+                    }
+
+                    //console.log(x, y);
+                    if(this.colorStyle == "random")
+                    {
+                        abcLIB.drawRectangle(ctx, this.x, this.y, rocketWidth, rocketHeight, abcLIB.getRandomColor());
+                    }
+                    else
+                    {
+                        abcLIB.drawRectangle(ctx, this.x, this.y, rocketWidth, rocketHeight, this.colorStyle);
+                    }
+                    this.y -= rocketSpeed;
                 }
-                abcLIB.drawRectangle(ctx, this.x, this.y, rocketWidth, rocketHeight, colorStyle);
-                this.y -= rocketSpeed;
-            }
-            else
-            {
-                this.timer = 0;
-                this.drawFirework();
-            }
+                else
+                {
+                    this.drawFirework();
+                }
+        }
         }
     }
 
@@ -105,11 +129,15 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
         ctx.fillRect(0,0,canvasWidth,canvasHeight);
         canvas.onclick = canvasClicked;
         loop();
+        drawNewFireWorks();
 	}
 
     // helpers
 
     function loop(){
+        getClockwise();
+        getFPS();
+        getFadeRate();
         setTimeout(loop, 1000/fps);
         abcLIB.drawRectangle(ctx, 0, 0, canvasWidth * 2, canvasHeight * 2, `rgba(0,0,0,${1/fadeRate})`);
     }
@@ -121,27 +149,12 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
     //  onclick gets mouse position and starts rocket
     function canvasClicked(e){
         n = 0;
-        timer = 13;
         let rect = e.target.getBoundingClientRect();
         mouseX = e.clientX;
         mouseY = e.clientY;
-        getFPS();
-        getFadeRate();
-        getColor();
-        getExplosion();
-        getDivergence();
-        getClockwise();
-        getSize();
         groupFireWorkCounter++;
-        groupFireWorks.push(new fireWork(mouseX, canvasHeight, mouseY, timer));
+        groupFireWorks.push(new fireWork(mouseX, canvasHeight, mouseY, timer, clockwise, n));
         rocketSound.play();
-        //console.log(mouseX, mouseY);
-        //y = canvasHeight;
-        //let fire = new Firework();
-        //fire.drawRocket();
-        //x = mouseX;
-        //drawRocket();
-        drawNewFireWorks();
     }
 
     //method to draw a fire work //multipe at the same time
@@ -170,63 +183,10 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
                 
             if(divergenceGroup[i].checked)
             {
-                divergence = Number(divergenceGroup[i].value);
+                return Number(divergenceGroup[i].value);
             }
         }
     }
-
-    /*function drawRocket(){
-        let random = abcLIB.getRandomInt(0,2);
-        //console.log(x);
-        if(random==0)
-        {
-            x-=2;
-        }
-        else if(random ==2)
-        {
-            x+=2;
-        }
-        if(y >= mouseY)
-        {
-            //console.log(x, y);
-            if(colorGroup[randomIndex].checked)
-            {
-                colorStyle = abcLIB.getRandomColor();
-            }
-            console.log("about to call again");
-            setTimeout(drawRocket,1000/fps);
-            abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
-            y -= rocketSpeed;
-        }
-        else
-        {
-            mouseY = canvasHeight;
-            timer = 0;
-            drawFirework();
-            //console.log("firework boom");
-        }
-    }
-    function drawFirework(){
-        if(timer ==0)
-        {
-            fireWorkSound.play();
-        }
-        if(timer < explosionTime)
-        {
-            timer += 1/12;
-            if(colorGroup[randomIndex].checked)
-            {
-                colorStyle = abcLIB.getRandomColor();
-            }
-            setTimeout(drawFirework,1000/fps);
-            let a = n * dtr(divergence);
-            let r = c * Math.sqrt(n);
-            let drawX = r * Math.cos(a) + x;
-            let drawY = r * Math.sin(a) + y;
-            abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
-            n++;
-        }
-    }*/
 
 
     //method to change the fade rate
@@ -237,12 +197,12 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
 
     //method to change the fade rate
     function getSize(){
-            fireworkDotSize = Number(document.querySelector("#sliderForSize").value);
+            return Number(document.querySelector("#sliderForSize").value);
     } 
 
     //method to change the exposion size
     function getExplosion(){
-            explosionTime = Number(document.querySelector("#sliderForExplosion").value);
+            return Number(document.querySelector("#sliderForExplosion").value);
     } 
 
     //method to change direction of spin
@@ -250,62 +210,19 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
         document.querySelector("#clockwiseCheck").onchange = function(e){
             clockwise = !clockwise;
         }
-        if(!clockwise)
-        {
-            divergence = -divergence;
-        }
+
     }
 
     //method to make pick a color // make rainbow probably with a timer
     function getColor(){
         colorGroup = document.querySelectorAll("#color");
+        let colorStyle;
         for(let i = 0; i < colorGroup.length; i++)
         {
             if(colorGroup[i].checked)
             {
-                if(colorGroup[i].value == "random")
-                {
-                    colorStyle = abcLIB.getRandomColor();
-                }
-                else if(colorGroup[i].value == "yellow")
-                {
-                    //colorStyle = abcLIB.getRandomColorRange(50, 65, 90, 100, 65, 80);
-                    colorStyle = "yellow"
-                }
-                else if(colorGroup[i].value == "blue")
-                {
-                    //colorStyle = abcLIB.getRandomColorRange(220, 240, 90, 100, 65, 80);
-                    colorStyle = "blue";
-                }
-                else if(colorGroup[i].value == "red")
-                {
-                    colorStyle = "red";
-                }
-                else if(colorGroup[i].value == "green")
-                {
-                    colorStyle = "green";
-                }
-                else if(colorGroup[i].value == "purple")
-                {
-                    colorStyle = "purple";
-                }
-                else if(colorGroup[i].value == "orange")
-                {
-                    colorStyle = "orange";
-                }
-                else if(colorGroup[i].value == "pink")
-                {
-                    colorStyle = "pink";
-                }
-                else if(colorGroup[i].value == "white")
-                {
-                    colorStyle = "white";
-                }
-                else if(colorGroup[i] == "rainbow")
-                {
-                    colorStyle = "white";
-                    //colorStyle = `hsl(${a/divergence * 10},100%,50%)`;
-                }
+                colorStyle = colorGroup[i].value
             }
         }
+        return colorStyle;
     }

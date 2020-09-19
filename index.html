@@ -23,7 +23,20 @@
 
 		<div id="controls2">
 			<h2 id="Controls">Controls</h2>
-			<p>Change the color: 
+			<h3 id="globalControls">Global</h3>
+
+			<p>Change the global speed:
+				<input type="range" id="fps" name="fps" min="12" max="120" value = "30"> 
+			</p>
+
+			<p>Change the global fade rate: 
+				<input type="range" id="slider" name="silderForFade" min="-50" max="-5" value="-20">
+			</p>
+			<br>
+
+			<h3 id="localControls">Local</h3>
+
+			<p>Change the  color: 
 				<input type="radio" id="color" name="colorGroup" value="blue">
 				<label for="fps">Blue</label>
 				<input type="radio" id="color" name="colorGroup" value="yellow">
@@ -40,13 +53,11 @@
 				<label for="fps">Pink</label>
 				<input type="radio" id="color" name="colorGroup" value="white">
 				<label for="fps">White</label>
-				<input type="radio" id="color" name="colorGroup" value="rainbow">
-				<label for="fps">Rainbow</label>
 				<input type="radio" id="color" name="colorGroup" value="random" checked>
 				<label for="fps">Random</label>
 			</p>
 
-			<p>Change the Divergence: 
+			<p>Change the divergence: 
 				<input type="radio" id="divergence" name="divergenceGroup" value="92.7">
 				<label for="divergence">92.7</label>
 				<input type="radio" id="divergence" name="divergenceGroup" value="-101.7">
@@ -63,24 +74,14 @@
 				<label for="divergence">147.7</label>
 			</p>
 
-			<br>
-			<p>Change the overall Speed:
-				<input type="range" id="fps" name="fps" min="12" max="120" value = "30"> 
-			</p>
-
-			<p>Change the fade speed: 
-				<input type="range" id="slider" name="silderForFade" min="-30" max="-10" value="-30">
-			</p>
-
-			<p>Change the Size of the firework: 
+			<p>Change the size of the firework: 
 				<input type="range" id="sliderForSize" name="silderForSize" min="3" max="20" value="5">
 			</p>
 
-			<p>Change the Size of the explosion: 
+			<p>Change the size of the explosion: 
 				<input type="range" id="sliderForExplosion" name="sliderForExplosion" min="3" max="10" value="5">
 			</p>
 
-			<br>
 			<p>Clockwise
 				<input type = "checkbox" id = "clockwiseCheck" name = "clockwiseCheck" checked>
 			</p>
