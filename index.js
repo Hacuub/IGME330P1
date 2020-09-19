@@ -31,6 +31,68 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
     let fireWorkSound = new Howl({src: ['firework.wav'], 
     volume: .175
     });
+    let groupFireWorks = [];
+    let groupFireWorkCounter = 0;
+
+    class fireWork {
+        constructor (X, Y, fireWorkHeight, Timer){
+            this.x = X;
+            this.y = Y
+            this.offSet = X;
+            this.height = fireWorkHeight;
+            this.timer = Timer
+        }
+
+        drawFirework(){
+            if(this.timer == 0)
+            {
+                fireWorkSound.play();
+            }
+            if(this.timer < explosionTime)
+            {
+                this.timer += 1/12;
+                if(colorGroup[randomIndex].checked)
+                {
+                    colorStyle = abcLIB.getRandomColor();
+                }
+                let a = n * dtr(divergence);
+                let r = c * Math.sqrt(n);
+                let drawX = r * Math.cos(a) + this.offSet;
+                let drawY = r * Math.sin(a) + this.height;
+                abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
+                n++;
+            }
+        }
+
+        
+        drawRocket(){
+            let random = abcLIB.getRandomInt(0,2);
+            //console.log(x);
+            if(random==0)
+            {
+                this.x-=2;
+            }
+            else if(random ==2)
+            {
+                this.x+=2;
+            }
+            if(this.y >= this.height)
+            {
+                //console.log(x, y);
+                if(colorGroup[randomIndex].checked)
+                {
+                    colorStyle = abcLIB.getRandomColor();
+                }
+                abcLIB.drawRectangle(ctx, this.x, this.y, rocketWidth, rocketHeight, colorStyle);
+                this.y -= rocketSpeed;
+            }
+            else
+            {
+                this.timer = 0;
+                this.drawFirework();
+            }
+        }
+    }
 
     window.onload = init;
 
@@ -70,13 +132,30 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
         getDivergence();
         getClockwise();
         getSize();
+        groupFireWorkCounter++;
+        groupFireWorks.push(new fireWork(mouseX, canvasHeight, mouseY, timer));
         rocketSound.play();
         //console.log(mouseX, mouseY);
-        y = canvasHeight;
+        //y = canvasHeight;
         //let fire = new Firework();
         //fire.drawRocket();
-        x = mouseX;
-        drawRocket();
+        //x = mouseX;
+        //drawRocket();
+        drawNewFireWorks();
+    }
+
+    //method to draw a fire work //multipe at the same time
+    function drawNewFireWorks(){
+        setTimeout(drawNewFireWorks, 1000/fps);
+        
+        //loop through the array and cycle to draw them
+        if(groupFireWorkCounter > 0)
+        {
+            for(let i = 0; i < groupFireWorkCounter; i++)
+            {
+                groupFireWorks[i].drawRocket();
+            }
+        }
     }
 
     //method to get the new fps
@@ -96,7 +175,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
         }
     }
 
-    function drawRocket(){
+    /*function drawRocket(){
         let random = abcLIB.getRandomInt(0,2);
         //console.log(x);
         if(random==0)
@@ -114,6 +193,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
             {
                 colorStyle = abcLIB.getRandomColor();
             }
+            console.log("about to call again");
             setTimeout(drawRocket,1000/fps);
             abcLIB.drawRectangle(ctx, x, y, rocketWidth, rocketHeight, colorStyle);
             y -= rocketSpeed;
@@ -146,7 +226,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
             abcLIB.drawCenterCircle(ctx, drawX, drawY, fireworkDotSize, colorStyle);
             n++;
         }
-    }
+    }*/
 
 
     //method to change the fade rate
