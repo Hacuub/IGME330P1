@@ -22,9 +22,25 @@ body{
 }
 
 #controls2{
-    padding-top: 3vh;
     font-size: 1em;
     grid-area: subBox2;
+}
+
+footer{
+    grid-area: subBox3;
+    text-align: center;
+}
+
+#controls2 p {
+    font-size: 1.5em;
+}
+
+#controls2 h2 {
+    font-size: 2.5em;
+}
+
+#controls2 h3 {
+    font-size: 2em;
 }
 
 #allControls{
@@ -34,7 +50,8 @@ body{
     grid-template-rows: 10vh 50vh 10vh;
     grid-template-areas: 
     "subBox1"
-    "subBox2";
+    "subBox2"
+    "subBox3";
 }
 
 .grid{
@@ -47,6 +64,103 @@ body{
 hr {
     background-color: #EFE6DD;
 }
+
+#color{
+    width: 2vw;
+    height: 2vh;
+    font-size: 3em;
+}
+
+#divergence {
+    width: 2vw;
+    height: 2vh;
+    background-color: aquamarine;
+    font-size: 3em;
+}
+
+#fps{
+    -webkit-appearance: none;
+    border: 1px  #2176AE solid;
+    width: 30vw;
+    height: 2vh;
+}
+
+#fps::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width:1vw;
+    height:2vh;
+    background-color: #2176AE;
+    cursor: pointer;
+}
+
+#slider{
+    -webkit-appearance: none;
+    border: 1px  #2176AE solid;
+    width: 30vw;
+    height: 2vh;
+}
+
+#slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width:1vw;
+    height:2vh;
+    background-color: #2176AE;
+    cursor: pointer;
+}
+
+#sliderForRocketSize{
+    -webkit-appearance: none;
+    border: 1px  #2176AE solid;
+    width: 30vw;
+    height: 2vh;
+}
+
+#sliderForRocketSize::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width:1vw;
+    height:2vh;
+    background-color: #2176AE;
+    cursor: pointer;
+}
+
+#sliderForSize{
+    -webkit-appearance: none;
+    border: 1px  #2176AE solid;
+    width: 30vw;
+    height: 2vh;
+}
+
+#sliderForSize::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width:1vw;
+    height:2vh;
+    background-color: #2176AE;
+    cursor: pointer;
+}
+
+#sliderForExplosion{
+    -webkit-appearance: none;
+    border: 1px  #2176AE solid;
+    width: 30vw;
+    height: 2vh;
+}
+
+#sliderForExplosion::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width:1vw;
+    height:2vh;
+    background-color: #2176AE;
+    cursor: pointer;
+}
+
+#clockwiseCheck{
+    width: 1vw;
+    height: 1vw;
+}
+
+
+
+
 
 
 
