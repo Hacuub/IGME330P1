@@ -5,7 +5,7 @@ body{
     background-color: #A78682;
 }
 #Title{
-    font-size:3em;
+    font-size:3vw;;
     text-align:left;
 }
     
@@ -14,25 +14,28 @@ body{
 }
 
 #Controls{
-    font-size: 2em;
+    font-size: 2vw;
 }
 
 #controls1{
     grid-area: subBox1;
+    padding-left: 0.5vw;
 }
 
 #controls2{
-    font-size: 1em;
+    font-size: 1vw;
     grid-area: subBox2;
+    padding-left: 0.5vw;
 }
 
 footer{
     grid-area: subBox3;
     text-align: center;
+    font-size:1vw;
 }
 
 #controls2 p {
-    font-size: 1.5em;
+    font-size: 1vw;
 }
 
 #controls2 h2 {
@@ -40,10 +43,10 @@ footer{
 }
 
 #controls2 h3 {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
-#allControls{
+#main{
     grid-area: box2;
 
     display: grid;
@@ -157,6 +160,22 @@ hr {
     width: 1vw;
     height: 1vw;
 }
+
+a {
+    
+    color:#000000;
+}
+
+a:hover{
+    color: #C6D8AF;
+}
+
+a:active{
+    color: #2176AE;
+}
+
+
+
 
 
 
