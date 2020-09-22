@@ -1,6 +1,7 @@
 import './abcLIB.js';
 import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
 "use strict";
+(function(){
 	let canvasWidth = 959, canvasHeight = 700;
 	let ctx;
     let n = 20;
@@ -22,6 +23,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
     });
     let groupFireWorks = [];
     let groupFireWorkCounter = 0;
+    let tickrate = 1/12;
 
     class fireWork {
         constructor (X, Y, fireWorkHeight, Timer, Clockwise, N){
@@ -53,7 +55,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
             }
             if(this.timer < this.explosionTime)
             {
-                this.timer += 1/12;
+                this.timer += tickrate;
 
                 let a = this.n * dtr(this.divergence);
                 let r = c * Math.sqrt(this.n);
@@ -61,12 +63,15 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
                 let drawY = r * Math.sin(a) + this.height;
                 if(this.colorStyle == "random")
                 {
+                    ctx.save();
                     abcLIB.drawCenterCircle(ctx, drawX, drawY, this.fireworkDotSize, abcLIB.getRandomColor());
+                    ctx.restore();
                 }
                 else
                 {
-
+                    ctx.save();
                     abcLIB.drawCenterCircle(ctx, drawX, drawY, this.fireworkDotSize, this.colorStyle);
+                    ctx.restore();
                 }
                 this.n++;
             }
@@ -95,11 +100,15 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
                     //console.log(x, y);
                     if(this.colorStyle == "random")
                     {
+                        ctx.save();
                         abcLIB.drawRectangle(ctx, this.x, this.y, this.rocketWidth, this.rocketHeight, abcLIB.getRandomColor());
+                        ctx.restore();
                     }
                     else
                     {
+                        ctx.save();
                         abcLIB.drawRectangle(ctx, this.x, this.y, this.rocketWidth, this.rocketHeight, this.colorStyle);
+                        ctx.restore();
                     }
                     this.y -= rocketSpeed;
                 }
@@ -107,7 +116,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
                 {
                     this.drawFirework();
                 }
-        }
+            }
         }
     }
 
@@ -171,7 +180,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
 
     //method to get the new divergence
     function getDivergence(){
-        divergenceGroup = document.querySelectorAll("#divergence");
+        divergenceGroup = document.querySelectorAll(".divergence");
         for(let i = 0; i < divergenceGroup.length; i++){
                 
             if(divergenceGroup[i].checked)
@@ -213,7 +222,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
 
     //method to make pick a color // make rainbow probably with a timer
     function getColor(){
-        colorGroup = document.querySelectorAll("#color");
+        colorGroup = document.querySelectorAll(".color");
         let colorStyle;
         for(let i = 0; i < colorGroup.length; i++)
         {
@@ -224,3 +233,5 @@ import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js";
         }
         return colorStyle;
     }
+
+})();
